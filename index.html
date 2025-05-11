@@ -1,23 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirecting...</title>
   <script>
-    // List of your Monetag links
-    const links = [
-      "https://sawutser.top/4/9314005",
-      "https://sawutser.top/4/9291662",
-      "https://sawutser.top/4/9291669"
-    ];
+    function detectOS() {
+      const platform = navigator.platform.toLowerCase();
+      const userAgent = navigator.userAgent.toLowerCase();
 
-    // Randomly select one link
-    const randomLink = links[Math.floor(Math.random() * links.length)];
+      if (platform.includes("win")) return "Windows";
+      if (platform.includes("mac")) return "MacOS";
+      if (/android/.test(userAgent)) return "Android";
+      if (/iphone|ipad|ipod/.test(userAgent)) return "iOS";
+      if (/linux/.test(platform)) return "Linux";
 
-    // Delay 5 seconds before redirect
-    setTimeout(function() {
-      window.location.href = randomLink;
-    }, 5000);
+      return "Other";
+    }
+
+    function spoofUserAgent(os) {
+      let spoofedUA = navigator.userAgent;
+
+      switch (os) {
+        case "Windows":
+          spoofedUA = spoofedUA.replace(/Windows NT \d+\.\d+/, "Windows NT 10.0");
+          break;
+        case "MacOS":
+          spoofedUA = spoofedUA.replace(/Mac OS X \d+_\d+_\d+/, "Mac OS X 10_15_4");
+          break;
+        case "Android":
+          spoofedUA = spoofedUA.replace(/Android \d+\.\d+/, "Android 10");
+          break;
+        case "iOS":
+          spoofedUA = spoofedUA.replace(/iPhone OS \d+_\d+_\d+/, "iPhone OS 14_4_2");
+          break;
+        case "Linux":
+          spoofedUA = spoofedUA.replace(/Linux/, "Linux x86_64");
+          break;
+        default:
+          break;
+      }
+
+      Object.defineProperty(navigator, 'userAgent', {
+        value: spoofedUA,
+        writable: false
+      });
+    }
+
+    function getRandomLink() {
+      const links = [
+        "https://sawutser.top/4/9314005",
+        "https://sawutser.top/4/9291662",
+        "https://sawutser.top/4/9291669"
+      ];
+      const randomIndex = Math.floor(Math.random() * links.length);
+      return links[randomIndex];
+    }
+
+    function getRandomOS(excludeOS) {
+      const osList = ["MacOS", "Android", "iOS", "Linux"];
+      const filteredOS = osList.filter(os => os !== excludeOS);
+      const randomIndex = Math.floor(Math.random() * filteredOS.length);
+      return filteredOS[randomIndex];
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const os = detectOS();
+
+      // 如果操作系统是 Windows，则随机转换到其他操作系统
+      let targetOS = os === "Windows" ? getRandomOS("Windows") : os;
+
+      // 伪装成选定的操作系统
+      spoofUserAgent(targetOS);
+
+      // 随机选择一个链接
+      const selectedLink = getRandomLink();
+
+      // 显示用户的操作系统和正在进行的重定向操作
+      document.body.innerHTML = `<p>Redirecting you to a random link based on your OS: ${targetOS}. Please wait...</p>`;
+
+      setTimeout(() => {
+        window.location.replace(selectedLink);
+      }, 5000);
+    });
   </script>
 </head>
 <body>
