@@ -3,26 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visit a Surprise Link</title>
+  <title>Redirecting...</title>
   <script>
-    function getRandomLink() {
+    // Automatically redirect to one of the links
+    window.onload = function () {
       const links = [
-        "https://sawutser.top/4/9314005",
-        "https://sawutser.top/4/9291662",
-        "https://sawutser.top/4/9291669"
+        "https://otieu.com/4/9291662",
+        "https://otieu.com/4/9291669",
+        "https://otieu.com/4/9314005"
       ];
       const randomIndex = Math.floor(Math.random() * links.length);
-      return links[randomIndex];
-    }
-
-    function goToLink() {
-      const link = getRandomLink();
-      window.location.href = link;
-    }
+      window.location.href = links[randomIndex];
+    };
   </script>
 </head>
 <body>
-  <p>Click the button below to continue:</p>
-  <button onclick="goToLink()">Continue</button>
+  <p>Redirecting you to a surprise link...</p>
 </body>
 </html>
